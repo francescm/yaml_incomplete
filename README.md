@@ -1,6 +1,11 @@
 # YamlIncomplete
 
-A very barebone `YAML` dumper.
+A very barebone `YAML` dumper. Not a `YAML` parser. 
+Converts a data structure to `YAML` if:
+* no tuples involved;
+* no structs.
+
+Only handles Maps or Lists of Integers, Strings and nil.
 
 ## Usage
 

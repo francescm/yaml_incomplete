@@ -1,26 +1,25 @@
 defmodule YamlIncomplete do
   @moduledoc """
-  Documentation for YamlIncomplete.
-  """
+  A very barebone `YAML` dumper. Not a `YAML` parser.
+  Converts a data structure to `YAML` if:
+  * no tuples involved;
+  * no structs.
 
-  @doc """
-  Hello world.
-
+  Only handles Maps or Lists of Integers, Strings and nil.
   ## Examples
 
-      iex> YamlIncomplete.hello()
-      :world
+      iex> YamlIncomplete.to_yaml(%{a: [1, 2]})
+      "---
+      :a:
+        - 1
+        - 2
+      "
 
   """
-  def hello do
-    :world
-  end
 
   def to_yaml(data) do
     "---\n#{to_yaml(data, 0)}\n"
   end
-
-
 
   @doc """
   Converts nil to yaml.
@@ -79,10 +78,15 @@ defmodule YamlIncomplete do
 
   """
   def to_yaml(term, indent) when is_list(term) do
-    term |> Enum.map(fn
-    el when is_integer(el) or is_nil(el) or is_bitstring(el) -> pad("- #{to_yaml(el, 0)}", indent)
-    el -> "#{pad("-", indent)}\n#{to_yaml(el, indent + 2)}"
-    end) |> Enum.join("\n")
+    term
+    |> Enum.map(fn
+      el when is_integer(el) or is_nil(el) or is_bitstring(el) ->
+        pad("- #{to_yaml(el, 0)}", indent)
+
+      el ->
+        "#{pad("-", indent)}\n#{to_yaml(el, indent + 2)}"
+    end)
+    |> Enum.join("\n")
   end
 
   @doc """
@@ -90,15 +94,19 @@ defmodule YamlIncomplete do
 
   """
   def to_yaml(term, indent) when is_map(term) do
-    Map.to_list(term) |> Enum.map(fn
-      {k, v} when is_integer(v) or is_nil(v) or is_bitstring(v) -> pad("#{to_yaml(k, 0)}: #{to_yaml(v, 0)}", indent)
-      {k, v} -> pad("#{to_yaml(k, 0)}:\n#{to_yaml(v, 2)}", indent)
-    end) |> Enum.join
+    Map.to_list(term)
+    |> Enum.map(fn
+      {k, v} when is_integer(v) or is_nil(v) or is_bitstring(v) ->
+        pad("#{to_yaml(k, 0)}: #{to_yaml(v, 0)}", indent)
+
+      {k, v} ->
+        pad("#{to_yaml(k, 0)}:\n#{to_yaml(v, 2)}", indent)
+    end)
+    |> Enum.join()
   end
 
-
   @doc """
-  Converts Integers to yaml.
+  Left padding utility private function
 
   ## Examples
 
@@ -109,5 +117,4 @@ defmodule YamlIncomplete do
   defp pad(term, indent) do
     String.pad_leading(term, indent + String.length(term))
   end
-
 end

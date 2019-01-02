@@ -2,10 +2,6 @@ defmodule YamlIncompleteTest do
   use ExUnit.Case
   doctest YamlIncomplete
 
-  test "greets the world" do
-    assert YamlIncomplete.hello() == :world
-  end
-
   test "converts nil to yaml" do
     assert YamlIncomplete.to_yaml(nil, 0) == ""
   end
@@ -13,7 +9,6 @@ defmodule YamlIncompleteTest do
   test "converts atoms to yaml" do
     assert YamlIncomplete.to_yaml(:a, 0) == ":a"
   end
-
 
   test "converts integers to yaml" do
     assert YamlIncomplete.to_yaml(123, 0) == "123"
