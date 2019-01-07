@@ -45,4 +45,11 @@ defmodule YamlIncompleteTest do
   test "converts maps with empty list to yaml" do
     assert YamlIncomplete.to_yaml(%{a: []}, 0) == ":a: []"
   end
+
+  test "converts maps with deeply nested list to yaml" do
+    assert YamlIncomplete.to_yaml(
+             %{"usernames" => [%{"USERNAME" => ["john_doe"], "active" => ["true"]}]},
+             0
+           ) == "usernames:\n- USERNAME:\n  - john_doe\n  active:\n  - true"
+  end
 end

@@ -111,7 +111,7 @@ defmodule YamlIncomplete do
         "#{to_yaml(k, 0)}: #{to_yaml([], 0)}"
 
       {k, v} ->
-        pad("#{to_yaml(k, 0)}:\n#{to_yaml(v, 0)}", indent)
+        "#{to_yaml(k, 0)}:\n#{to_yaml(v, indent)}"
     end)
     |> Enum.join("\n#{String.duplicate(" ", indent)}")
   end
