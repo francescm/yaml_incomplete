@@ -31,6 +31,10 @@ defmodule YamlIncompleteTest do
   end
 
   test "converts nested maps to yaml" do
-    assert YamlIncomplete.to_yaml(%{a: [1, 2]}, 0) == ":a:\n  - 1\n  - 2"
+    assert YamlIncomplete.to_yaml(%{a: [1, 2]}, 0) == ":a:\n- 1\n- 2"
+  end
+
+  test "converts maps of maps to yaml" do
+    assert YamlIncomplete.to_yaml(%{a: [%{d: 2, f: 3}]}, 0) == ":a:\n- :d: 2\n  :f: 3"
   end
 end

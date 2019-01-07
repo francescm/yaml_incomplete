@@ -11,8 +11,8 @@ defmodule YamlIncomplete do
       iex> YamlIncomplete.to_yaml(%{a: [1, 2]})
       "---
       :a:
-        - 1
-        - 2
+      - 1
+      - 2
       "
 
   """
@@ -80,10 +80,15 @@ defmodule YamlIncomplete do
   def to_yaml(term, indent) when is_list(term) do
     term
     |> Enum.map(fn
-      el when is_integer(el) or is_nil(el) or is_bitstring(el) ->
+      el when is_integer(el) or is_nil(el) or is_bitstring(el)  ->
         pad("- #{to_yaml(el, 0)}", indent)
 
+      el when is_map(el) ->
+        "- #{to_yaml(el, indent + 2)}"
+
+      # FIXME: lists can be written in a more compact way
       el ->
+        # pad("- #{to_yaml(el, 2)}", indent)
         "#{pad("-", indent)}\n#{to_yaml(el, indent + 2)}"
     end)
     |> Enum.join("\n")
@@ -97,12 +102,12 @@ defmodule YamlIncomplete do
     Map.to_list(term)
     |> Enum.map(fn
       {k, v} when is_integer(v) or is_nil(v) or is_bitstring(v) ->
-        pad("#{to_yaml(k, 0)}: #{to_yaml(v, 0)}", indent)
+        "#{to_yaml(k, 0)}: #{to_yaml(v, 0)}"
 
       {k, v} ->
-        pad("#{to_yaml(k, 0)}:\n#{to_yaml(v, 2)}", indent)
+        pad("#{to_yaml(k, 0)}:\n#{to_yaml(v, 0)}", indent)
     end)
-    |> Enum.join()
+    |> Enum.join("\n#{String.duplicate(" ", indent)}")
   end
 
   @doc """
