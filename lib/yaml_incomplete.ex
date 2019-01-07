@@ -73,6 +73,10 @@ defmodule YamlIncomplete do
     pad("#{Integer.to_string(term)}", indent)
   end
 
+  def to_yaml([], indent) do
+    pad("[]", indent)
+  end
+
   @doc """
   Converts lists to yaml.
 
@@ -80,15 +84,13 @@ defmodule YamlIncomplete do
   def to_yaml(term, indent) when is_list(term) do
     term
     |> Enum.map(fn
-      el when is_integer(el) or is_nil(el) or is_bitstring(el)  ->
+      el when is_integer(el) or is_nil(el) or is_bitstring(el) ->
         pad("- #{to_yaml(el, 0)}", indent)
 
       el when is_map(el) ->
         "- #{to_yaml(el, indent + 2)}"
 
-      # FIXME: lists can be written in a more compact way
       el ->
-        # pad("- #{to_yaml(el, 2)}", indent)
         "#{pad("-", indent)}\n#{to_yaml(el, indent + 2)}"
     end)
     |> Enum.join("\n")
@@ -102,7 +104,11 @@ defmodule YamlIncomplete do
     Map.to_list(term)
     |> Enum.map(fn
       {k, v} when is_integer(v) or is_nil(v) or is_bitstring(v) ->
+        # indent is zero because indentation is handled by join (last line)
         "#{to_yaml(k, 0)}: #{to_yaml(v, 0)}"
+
+      {k, []} ->
+        "#{to_yaml(k, 0)}: #{to_yaml([], 0)}"
 
       {k, v} ->
         pad("#{to_yaml(k, 0)}:\n#{to_yaml(v, 0)}", indent)
