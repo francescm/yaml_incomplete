@@ -12,8 +12,8 @@ Only handles Maps or Lists of Integers, Strings and nil.
     iex> YamlIncomplete.to_yaml(%{a: [1, 2]})
     ---
     :a:
-      - 1
-      - 2
+    - 1
+    - 2
 
 ## Installation
 
