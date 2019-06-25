@@ -46,6 +46,16 @@ defmodule YamlIncompleteTest do
     assert YamlIncomplete.to_yaml(%{a: []}, 0) == ":a: []"
   end
 
+  #"mail\": {\n    \"gtondi\": \"\",\n    \"234469\": \"\"\n  }
+  #"---\nmail:\n  gtondi: ''\n"
+
+  test "converts maps nested into map to yaml" do
+    assert YamlIncomplete.to_yaml(
+             %{"mail" => %{"account" => "alpha", "another_account" => "computer", "other_account" => "bravo"}},
+             0
+           ) == "'mail':\n  'account': 'alpha'\n  'another_account': 'computer'\n  'other_account': 'bravo'"
+  end
+
   test "converts maps with deeply nested list to yaml" do
     assert YamlIncomplete.to_yaml(
              %{"usernames" => [%{"USERNAME" => ["john_doe"], "active" => ["true"]}]},

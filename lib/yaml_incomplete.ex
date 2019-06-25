@@ -103,8 +103,13 @@ defmodule YamlIncomplete do
   def to_yaml(term, indent) when is_map(term) do
     Map.to_list(term)
     |> Enum.map(fn
+
+      {k, v} when is_map(v) ->
+        "#{to_yaml(k, 0)}:\n#{pad(to_yaml(v, indent + 2), indent + 2)}"
+
       {k, v} when is_integer(v) or is_nil(v) or is_bitstring(v) ->
-        # indent is zero because indentation is handled by join (last line)
+        # below indent is zero because indentation is handled by
+        #  join (last line) for the middle elements
         "#{to_yaml(k, 0)}: #{to_yaml(v, 0)}"
 
       {k, []} ->
