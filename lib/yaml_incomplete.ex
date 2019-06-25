@@ -44,7 +44,7 @@ defmodule YamlIncomplete do
 
   """
   def to_yaml(term, indent) when is_bitstring(term) do
-    pad("\"#{term}\"", indent)
+    pad("'#{term}'", indent)
   end
 
   @doc """
