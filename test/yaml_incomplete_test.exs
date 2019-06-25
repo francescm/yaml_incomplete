@@ -23,7 +23,7 @@ defmodule YamlIncompleteTest do
   end
 
   test "converts mixed nested lists to yaml" do
-    assert YamlIncomplete.to_yaml([1, ["hello", nil]], 0) == "- 1\n-\n  - hello\n  - "
+    assert YamlIncomplete.to_yaml([1, ["hello", nil]], 0) == "- 1\n-\n  - \"hello\"\n  - "
   end
 
   test "converts empty lists to yaml" do
@@ -50,6 +50,6 @@ defmodule YamlIncompleteTest do
     assert YamlIncomplete.to_yaml(
              %{"usernames" => [%{"USERNAME" => ["john_doe"], "active" => ["true"]}]},
              0
-           ) == "usernames:\n- USERNAME:\n  - john_doe\n  active:\n  - true"
+           ) == "\"usernames\":\n- \"USERNAME\":\n  - \"john_doe\"\n  \"active\":\n  - \"true\""
   end
 end

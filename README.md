@@ -23,7 +23,7 @@ by adding `yaml_incomplete` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:yaml_incomplete, "~> 0.1.0"}
+    {:yaml_incomplete, "~> 0.1.1"}
   ]
 end
 ```
