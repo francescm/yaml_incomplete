@@ -31,7 +31,7 @@ defmodule YamlIncomplete do
   """
 
   def to_yaml(term, indent) when is_nil(term) do
-    String.pad_leading("", indent)
+    String.pad_leading("null", indent)
   end
 
   @doc """

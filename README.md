@@ -5,7 +5,7 @@ Converts a data structure to `YAML` if:
 * no tuples involved;
 * no structs.
 
-Only handles Maps or Lists of Integers, Strings and nil.
+Only handles Maps or Lists of Integers, Strings and null.
 
 ## Usage
 

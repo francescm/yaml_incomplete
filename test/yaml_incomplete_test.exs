@@ -3,7 +3,7 @@ defmodule YamlIncompleteTest do
   doctest YamlIncomplete
 
   test "converts nil to yaml" do
-    assert YamlIncomplete.to_yaml(nil, 0) == ""
+    assert YamlIncomplete.to_yaml(nil, 0) == "null"
   end
 
   test "converts atoms to yaml" do
@@ -23,7 +23,7 @@ defmodule YamlIncompleteTest do
   end
 
   test "converts mixed nested lists to yaml" do
-    assert YamlIncomplete.to_yaml([1, ["hello", nil]], 0) == "- 1\n-\n  - 'hello'\n  - "
+    assert YamlIncomplete.to_yaml([1, ["hello", nil]], 0) == "- 1\n-\n  - 'hello'\n  - null"
   end
 
   test "converts empty lists to yaml" do
