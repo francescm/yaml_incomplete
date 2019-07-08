@@ -27,10 +27,23 @@ defmodule YamlIncomplete do
   ## Examples
 
       iex> YamlIncomplete.to_yaml(nil, 0)
-      ""
+      "null"
   """
 
   def to_yaml(term, indent) when is_nil(term) do
+    String.pad_leading("null", indent)
+  end
+
+  @doc """
+  Converts null to yaml.
+
+  ## Examples
+
+      iex> YamlIncomplete.to_yaml("null", 0)
+      "null"
+  """
+
+  def to_yaml("null", indent) do
     String.pad_leading("null", indent)
   end
 
@@ -103,7 +116,6 @@ defmodule YamlIncomplete do
   def to_yaml(term, indent) when is_map(term) do
     Map.to_list(term)
     |> Enum.map(fn
-
       {k, v} when is_map(v) ->
         "#{to_yaml(k, 0)}:\n#{pad(to_yaml(v, indent + 2), indent + 2)}"
 
