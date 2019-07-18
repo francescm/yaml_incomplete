@@ -18,6 +18,10 @@ defmodule YamlIncompleteTest do
     assert YamlIncomplete.to_yaml(123, 0) == "123"
   end
 
+  test "converts string to yaml escaped" do
+    assert YamlIncomplete.to_yaml("d'artagnan", 0) == "'d''artagnan'"
+  end
+
   test "converts lists to yaml" do
     assert YamlIncomplete.to_yaml([1, 2], 0) == "- 1\n- 2"
   end
